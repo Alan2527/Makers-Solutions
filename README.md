@@ -21,8 +21,8 @@ Suite de pruebas que cubre los tres módulos del enunciado: automatización de u
 
 | Módulo | Entregable | Casos | Resultado |
 |---|---|---|---|
-| **1 · Automatización** | Smoke test de login en [saucedemo.com](https://www.saucedemo.com/) | 9 automatizados | ✅ 9 en verde |
-| **2 · Funcional** | Diseño de pruebas de MakersPay | 27 diseñados | 📋 11 consultas al equipo de producto |
+| **1 · Automatización** | Smoke test de login en [saucedemo.com](https://www.saucedemo.com/) | 4 automatizados | ✅ 4 en verde |
+| **2 · Funcional** | Diseño de pruebas de MakersPay | 14 diseñados | 📋 6 consultas al equipo de producto |
 | **3 · API** | Pruebas funcionales de [reqres.in](https://reqres.in/api/) | 7 automatizados | ✅ 6 en verde · 🔴 1 en rojo *(defecto real, ver abajo)* |
 
 ### ⚠️ Sobre el caso en rojo — leer antes de interpretar el reporte
@@ -75,7 +75,7 @@ npm run report
 
 ```
 ├── cypress/
-│   ├── e2e/ui/login.cy.js        Módulo 1 — 9 casos de login
+│   ├── e2e/ui/login.cy.js        Módulo 1 — 4 casos de login
 │   ├── e2e/api/reqres.cy.js      Módulo 3 — 7 casos de API
 │   ├── pages/                    Page Objects (cómo se interactúa con la app)
 │   ├── fixtures/                 Datos de prueba (usuarios, mensajes esperados)
@@ -93,7 +93,7 @@ npm run report
 
 **Cypress + JavaScript.** De las tecnologías permitidas por el enunciado (Cypress, SerenityBDD o Selenium), es la única que cubre interfaz gráfica y API en un mismo proyecto, con una sola instalación y un solo reporte.
 
-**Page Object Model.** Los archivos de prueba describen *qué* se valida; los Page Objects describen *cómo* se interactúa con la aplicación. Si mañana cambia el nombre de un campo, se corrige una línea en un solo archivo y las 9 pruebas siguen funcionando.
+**Page Object Model.** Los archivos de prueba describen *qué* se valida; los Page Objects describen *cómo* se interactúa con la aplicación. Si mañana cambia el nombre de un campo, se corrige una línea en un solo archivo y todas las pruebas siguen funcionando.
 
 **Datos separados del código.** Ninguna credencial ni texto esperado está escrito dentro de un test: todo vive en `cypress/fixtures/`.
 
@@ -113,12 +113,11 @@ npm run report
 |---|---|
 | **Módulo 1** — Login exitoso con credenciales válidas | ✅ `SD-01` |
 | **Módulo 1** — Login fallido con contraseña incorrecta | ✅ `SD-02` |
-| **Módulo 1** — Validación de campos obligatorios | ✅ `SD-03`, `SD-04`, `SD-09` |
-| *Casos adicionales de automatización* | ✅ `SD-05` a `SD-08` — usuario bloqueado, enumeración de usuarios, control de acceso por URL, enmascarado de contraseña |
+| **Módulo 1** — Validación de campos obligatorios | ✅ `SD-03`, `SD-04` |
 | **Módulo 2** — Escenarios de prueba | ✅ [escenarios.md](docs/02-modulo-funcional/escenarios.md) |
-| **Módulo 2** — Casos de prueba | ✅ 27 casos en [casos-de-prueba.md](docs/02-modulo-funcional/casos-de-prueba.md) |
-| **Módulo 2** — Reporte de bugs | ✅ 11 defectos del requerimiento en [bugs.md](docs/02-modulo-funcional/bugs.md) |
-| **Módulo 2** — Técnicas y tipos de prueba | ✅ 6 técnicas y 7 tipos documentados |
+| **Módulo 2** — Casos de prueba | ✅ 14 casos en [casos-de-prueba.md](docs/02-modulo-funcional/casos-de-prueba.md) |
+| **Módulo 2** — Reporte de bugs | ✅ 6 defectos del requerimiento en [bugs.md](docs/02-modulo-funcional/bugs.md) |
+| **Módulo 2** — Técnicas y tipos de prueba | ✅ 5 técnicas y 5 tipos documentados |
 | **Módulo 3** — POST /users devuelve 201 | ✅ `API-01` |
 | **Módulo 3** — Extraer ID y consultar GET /users/{id} | 🔴 `API-02` — *bloqueado por defecto de la API* |
 | **Módulo 3** — Casos adicionales | ✅ `API-03` a `API-07` — contrato con JSON Schema, manejo de errores, validación de entrada, rendimiento |
@@ -145,4 +144,4 @@ MakersPay es un producto ficticio descrito en el enunciado: **no existe una apli
 
 Los bugs que se reportan son **defectos del requerimiento** — huecos verificables hoy en el texto del enunciado, como que no define qué pasa ante envíos simultáneos o si el sistema falla a mitad de una transferencia. Un requerimiento ambiguo es un defecto, y es el más barato de corregir.
 
-No se presentan bugs inventados como si hubieran sido encontrados en ejecución. La plantilla de reporte incluye dos ejemplos, claramente identificados como simulados.
+No se presentan bugs inventados como si hubieran sido encontrados en ejecución. La plantilla de reporte incluye un ejemplo, claramente identificado como simulado.

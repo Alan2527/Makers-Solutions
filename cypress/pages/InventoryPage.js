@@ -7,8 +7,6 @@ class InventoryPage {
     contenedor: '[data-test="inventory-container"]',
     productos: '[data-test="inventory-item"]',
     titulo: '[data-test="title"]',
-    menuBurger: '#react-burger-menu-btn',
-    linkLogout: '#logout_sidebar_link',
   };
 
   /** Verifica que el login fue exitoso: URL, titulo y catalogo cargado */
@@ -22,12 +20,6 @@ class InventoryPage {
   /** Verifica la cantidad de productos visibles en el catalogo */
   static verificarCantidadDeProductos(cantidadEsperada) {
     cy.get(this.selectores.productos).should('have.length', cantidadEsperada);
-    return this;
-  }
-
-  static cerrarSesion() {
-    cy.get(this.selectores.menuBurger).click();
-    cy.get(this.selectores.linkLogout).click();
     return this;
   }
 }

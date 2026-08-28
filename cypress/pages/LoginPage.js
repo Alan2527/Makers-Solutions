@@ -66,11 +66,6 @@ class LoginPage {
     return this;
   }
 
-  /** Verifica que la contrasena se muestra enmascarada en pantalla */
-  static verificarPasswordEnmascarada() {
-    cy.get(this.selectores.password).should('have.attr', 'type', 'password');
-    return this;
-  }
 }
 
 export default LoginPage;

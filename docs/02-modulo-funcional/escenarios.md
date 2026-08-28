@@ -108,7 +108,7 @@ Escenario: Un usuario sin saldo no puede enviar dinero
     Y el saldo de Ana permanece en $0
 ```
 
-> **Nota sobre el caso "$100.000":** la regla dice *"no puede enviar más dinero del saldo disponible"*. Enviar exactamente todo el saldo no es "más", así que debe permitirse y dejar el saldo en cero. Este caso está marcado para confirmación con el equipo de producto (ver [consultas](./bugs.md#consultas-al-equipo-de-producto)).
+> **Nota sobre el caso "$100.000":** la regla dice *"no puede enviar más dinero del saldo disponible"*. Enviar exactamente todo el saldo no es "más", así que debe permitirse y dejar el saldo en cero. Este caso está marcado para confirmación con el equipo de producto (ver [consultas](./bugs.md)).
 
 ---
 
@@ -142,7 +142,7 @@ Escenario: Envío a un celular que no está registrado
     Y el saldo de Ana permanece en $500.000
 ```
 
-> ⚠️ **Comportamiento no definido en el requerimiento.** El requerimiento dice "otro usuario registrado" pero no especifica qué debe pasar si no lo está. Ver consulta **RQ-01**.
+> ⚠️ **Comportamiento no definido en el requerimiento.** El requerimiento dice "otro usuario registrado" pero no especifica qué debe pasar si no lo está. Ver consulta **RQ-04**.
 
 ```gherkin
 Esquema del escenario: Validación del formato del número de celular
@@ -183,7 +183,7 @@ Esquema del escenario: Valores no válidos en el campo monto
     | 50.000,5 | monto con decimales            |
 ```
 
-> ⚠️ **El caso de decimales no está definido** en el requerimiento. Ver consulta **RQ-02**.
+> ⚠️ **El caso de decimales no está definido** en el requerimiento. Ver consulta **RQ-06**.
 
 ---
 
@@ -226,69 +226,6 @@ Escenario: El movimiento queda correctamente registrado en ambos historiales
     | fecha       | la misma fecha y hora  |
     | estado      | Exitosa                |
 ```
-
----
-
-## 9. Escenarios de riesgo (no solicitados, detectados por análisis)
-
-Estos escenarios no surgen del requerimiento escrito. Surgen de preguntarse **qué podría salir mal** en un sistema que mueve dinero real.
-
-```gherkin
-Escenario: Doble clic en el botón de enviar no genera dos transferencias
-  Dado que Ana inició sesión en MakersPay
-    Y su saldo disponible es $500.000
-  Cuando Ana hace clic dos veces seguidas en "Enviar" con un monto de $50.000
-  Entonces se registra una sola transacción
-    Y el saldo de Ana queda en $450.000
-```
-
-> ⚠️ **Riesgo alto, comportamiento no definido.** Es una de las causas más frecuentes de transferencias duplicadas en billeteras reales. Ver consulta **RQ-03**.
-
-```gherkin
-Escenario: Dos envíos simultáneos no pueden dejar el saldo en negativo
-  Dado que Ana inició sesión en MakersPay desde dos dispositivos
-    Y su saldo disponible es $100.000
-  Cuando desde ambos dispositivos envía $80.000 al mismo tiempo
-  Entonces una sola de las dos transacciones se procesa
-    Y la otra se rechaza por saldo insuficiente
-    Y el saldo de Ana queda en $20.000
-    Y el saldo de Ana nunca queda en negativo
-```
-
-> ⚠️ **Riesgo crítico, comportamiento no definido.** Es la falla clásica de los sistemas financieros. Ver consulta **RQ-04**.
-
-```gherkin
-Escenario: La transferencia es atómica ante una falla del sistema
-  Dado que Ana envía $50.000 a Bruno
-  Cuando el sistema falla después de descontar el saldo de Ana
-    Y antes de acreditar el saldo de Bruno
-  Entonces la operación se revierte completamente
-    Y el saldo de Ana vuelve a su valor original
-    Y no queda ningún movimiento a medias en ningún historial
-```
-
-> ⚠️ **Riesgo crítico.** El dinero no puede desaparecer en el medio. Ver consulta **RQ-10**.
-
-```gherkin
-Escenario: Una sesión expirada no permite completar el envío
-  Dado que Ana completó los datos del envío
-    Y su sesión expiró antes de confirmar
-  Cuando Ana confirma la transacción
-  Entonces el sistema la redirige al inicio de sesión
-    Y no se ejecuta la transferencia
-    Y ningún saldo se ve afectado
-```
-
-```gherkin
-Escenario: El monto enviado se valida también en el servidor
-  Dado que Ana manipula la petición para enviar $5.000.000
-    Y ese monto supera el máximo permitido
-  Cuando la petición llega al servidor
-  Entonces el servidor la rechaza
-    Y la transacción no se ejecuta
-```
-
-> ⚠️ **Riesgo crítico de seguridad.** Si las reglas de negocio solo se validan en la pantalla, cualquiera puede saltearlas. Toda validación de dinero tiene que existir también del lado del servidor.
 
 ---
 

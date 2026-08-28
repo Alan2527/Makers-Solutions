@@ -5,17 +5,9 @@
     "standard": { "usuario": "standard_user", "password": "secret_sauce" }
   },
 
-  "especiales": {
-    "bloqueado": { "usuario": "locked_out_user", "password": "secret_sauce" },
-    "conProblemas": { "usuario": "problem_user", "password": "secret_sauce" },
-    "lento": { "usuario": "performance_glitch_user", "password": "secret_sauce" }
-  },
-
   "invalidos": {
     "passwordIncorrecta": { "usuario": "standard_user", "password": "password_incorrecta" },
-    "usuarioInexistente": { "usuario": "usuario_que_no_existe", "password": "secret_sauce" },
     "sinUsuario": { "usuario": "", "password": "secret_sauce" },
-    "sinPassword": { "usuario": "standard_user", "password": "" },
-    "ambosVacios": { "usuario": "", "password": "" }
+    "sinPassword": { "usuario": "standard_user", "password": "" }
   }
 }

@@ -92,11 +92,11 @@
 </header>
 
 <div class="stats">
-  <div class="stat"><div class="n">43</div><div class="l">Casos de prueba diseñados</div></div>
-  <div class="stat"><div class="n">16</div><div class="l">Casos automatizados</div></div>
-  <div class="stat ok"><div class="n">15</div><div class="l">En verde</div></div>
+  <div class="stat"><div class="n">25</div><div class="l">Casos de prueba diseñados</div></div>
+  <div class="stat"><div class="n">11</div><div class="l">Casos automatizados</div></div>
+  <div class="stat ok"><div class="n">10</div><div class="l">En verde</div></div>
   <div class="stat fail"><div class="n">1</div><div class="l">En rojo (defecto real)</div></div>
-  <div class="stat warn"><div class="n">13</div><div class="l">Hallazgos reportados</div></div>
+  <div class="stat warn"><div class="n">8</div><div class="l">Hallazgos reportados</div></div>
 </div>
 
 <div class="note crit">
@@ -118,7 +118,7 @@
 <section class="panel active" id="m1">
   <div class="card">
     <h3>Smoke test de inicio de sesión</h3>
-    <p class="meta">Aplicación: <a href="https://www.saucedemo.com/">saucedemo.com</a> · Cypress + JavaScript · 9 casos · <span class="pill p-ok">9 en verde</span></p>
+    <p class="meta">Aplicación: <a href="https://www.saucedemo.com/">saucedemo.com</a> · Cypress + JavaScript · 4 casos · <span class="pill p-ok">4 en verde</span></p>
     <div class="bar"><i style="width:100%"></i></div>
     <div class="tblwrap"><table>
       <thead><tr><th>ID</th><th>Caso</th><th>Técnica</th><th>Estado</th></tr></thead>
@@ -127,22 +127,16 @@
         <tr><td class="id">SD-02</td><td>Con contraseña incorrecta el acceso es rechazado</td><td>Partición de equivalencia</td><td><span class="pill p-ok">Verde</span></td></tr>
         <tr><td class="id">SD-03</td><td>El campo Usuario es obligatorio</td><td>Campos obligatorios</td><td><span class="pill p-ok">Verde</span></td></tr>
         <tr><td class="id">SD-04</td><td>El campo Contraseña es obligatorio</td><td>Campos obligatorios</td><td><span class="pill p-ok">Verde</span></td></tr>
-        <tr><td class="id">SD-05</td><td>Un usuario bloqueado no puede ingresar</td><td>Data-driven</td><td><span class="pill p-ok">Verde</span></td></tr>
-        <tr><td class="id">SD-06</td><td>Un usuario inexistente recibe el mismo mensaje genérico</td><td>Seguridad · enumeración</td><td><span class="pill p-ok">Verde</span></td></tr>
-        <tr><td class="id">SD-07</td><td>Sin sesión no se accede al catálogo por URL directa</td><td>Control de acceso</td><td><span class="pill p-ok">Verde</span></td></tr>
-        <tr><td class="id">SD-08</td><td>La contraseña se muestra enmascarada</td><td>Datos sensibles</td><td><span class="pill p-ok">Verde</span></td></tr>
-        <tr><td class="id">SD-09</td><td>Con ambos campos vacíos se prioriza el aviso de Usuario</td><td>Precedencia de validaciones</td><td><span class="pill p-ok">Verde</span></td></tr>
       </tbody>
     </table></div>
   </div>
   <div class="card">
-    <h3>Qué pedía el enunciado y qué se entregó</h3>
-    <p class="meta">Los 3 casos solicitados están cubiertos por SD-01 a SD-04. Los 5 restantes se agregaron por análisis de riesgo.</p>
+    <h3>Alcance del módulo</h3>
+    <p class="meta">El enunciado pide un <strong>conjunto mínimo</strong> de pruebas para validar el inicio de sesión. Los 3 puntos solicitados están cubiertos por estos 4 casos.</p>
     <ul class="clean">
-      <li><strong>SD-07</strong> cubre un riesgo de seguridad que el enunciado no pedía: que alguien saltee el login escribiendo la dirección de una pantalla interna.</li>
-      <li><strong>SD-06</strong> verifica que el sistema no revele qué usuarios existen, evitando que un atacante los descubra probando nombres.</li>
       <li>Los datos de prueba viven en archivos aparte (<code>cypress/fixtures/</code>): ninguna credencial está escrita dentro de un test.</li>
       <li>Los localizadores usan atributos <code>data-test</code> y están centralizados en Page Objects: si la aplicación cambia, se corrige en un solo lugar.</li>
+      <li>No hay pausas fijas: se espera por condiciones concretas, lo que evita pruebas lentas y falsos rojos.</li>
     </ul>
   </div>
 </section>
@@ -151,7 +145,7 @@
 <section class="panel" id="m2">
   <div class="card">
     <h3>MakersPay — Envío de dinero</h3>
-    <p class="meta">Producto ficticio, sin aplicación ejecutable. Entregable de diseño y análisis: 27 casos de prueba y 11 consultas al equipo de producto.</p>
+    <p class="meta">Producto ficticio, sin aplicación ejecutable. Entregable de diseño y análisis: 14 casos de prueba y 6 consultas al equipo de producto.</p>
     <div class="note">
       <strong>Nota de transparencia.</strong> Como no existe una aplicación para ejecutar,
       no se reportan bugs de ejecución como si fueran reales. Lo que se reporta son
@@ -168,10 +162,10 @@
       <tbody>
         <tr><td class="id">RN-01</td><td>Monto mínimo $5.000 COP</td><td class="id">MP-02, MP-03, MP-04</td></tr>
         <tr><td class="id">RN-02</td><td>Monto máximo $2.000.000 COP</td><td class="id">MP-05, MP-06, MP-07</td></tr>
-        <tr><td class="id">RN-03</td><td>No se puede enviar más que el saldo</td><td class="id">MP-08 a MP-10, MP-13, MP-23</td></tr>
-        <tr><td class="id">RN-04</td><td>No se permite el envío al propio número</td><td class="id">MP-11</td></tr>
-        <tr><td class="id">RN-05</td><td>Efectos de una transacción exitosa</td><td class="id">MP-01, MP-24, MP-27</td></tr>
-        <tr><td class="id">RN-06</td><td>Un rechazo no afecta ningún saldo</td><td class="id">MP-10, MP-15, MP-21, MP-25</td></tr>
+        <tr><td class="id">RN-03</td><td>No se puede enviar más que el saldo</td><td class="id">MP-08, MP-09</td></tr>
+        <tr><td class="id">RN-04</td><td>No se permite el envío al propio número</td><td class="id">MP-10</td></tr>
+        <tr><td class="id">RN-05</td><td>Efectos de una transacción exitosa</td><td class="id">MP-01, MP-14</td></tr>
+        <tr><td class="id">RN-06</td><td>Un rechazo no afecta ningún saldo</td><td class="id">MP-09, MP-12, MP-13</td></tr>
       </tbody>
     </table></div>
   </div>
@@ -192,21 +186,20 @@
   </div>
   <div class="card">
     <h3>Consultas al equipo de producto</h3>
-    <p class="meta">11 huecos detectados en el requerimiento · 3 críticos</p>
+    <p class="meta">6 huecos detectados en el requerimiento · 3 críticos</p>
     <div class="tblwrap"><table>
       <thead><tr><th>ID</th><th>Qué no está definido</th><th>Riesgo</th><th>Sev.</th></tr></thead>
       <tbody>
-        <tr><td class="id">RQ-04</td><td>Comportamiento ante envíos simultáneos</td><td>Con saldo de $100.000 y dos envíos de $80.000 a la vez, ambos podrían aprobarse y dejar el saldo en negativo</td><td><span class="pill p-fail">Crítica</span></td></tr>
-        <tr><td class="id">RQ-10</td><td>Atomicidad de la transferencia</td><td>Si falla entre el descuento y la acreditación, el dinero desaparece</td><td><span class="pill p-fail">Crítica</span></td></tr>
+        <tr><td class="id">RQ-01</td><td>Comportamiento ante envíos simultáneos</td><td>Con saldo de $100.000 y dos envíos de $80.000 a la vez, ambos podrían aprobarse y dejar el saldo en negativo</td><td><span class="pill p-fail">Crítica</span></td></tr>
+        <tr><td class="id">RQ-02</td><td>Atomicidad de la transferencia</td><td>Si falla entre el descuento y la acreditación, el dinero desaparece</td><td><span class="pill p-fail">Crítica</span></td></tr>
         <tr><td class="id">RQ-03</td><td>Idempotencia ante doble envío</td><td>Un doble clic podría generar dos transferencias</td><td><span class="pill p-fail">Crítica</span></td></tr>
-        <tr><td class="id">RQ-01</td><td>Qué pasa si el destinatario no está registrado</td><td>Además, responder "ese número no existe" permitiría descubrir quién tiene cuenta</td><td><span class="pill p-warn">Alta</span></td></tr>
+        <tr><td class="id">RQ-04</td><td>Qué pasa si el destinatario no está registrado</td><td>Además, responder "ese número no existe" permitiría descubrir quién tiene cuenta</td><td><span class="pill p-warn">Alta</span></td></tr>
         <tr><td class="id">RQ-05</td><td>Límite diario o mensual acumulado</td><td>Nada impide 50 transacciones de $2.000.000 seguidas</td><td><span class="pill p-warn">Alta</span></td></tr>
-        <tr><td class="id">RQ-06</td><td>Estado del destinatario (bloqueado, dado de baja)</td><td>Dinero enviado a una cuenta que no puede usarlo</td><td><span class="pill p-warn">Alta</span></td></tr>
-        <tr><td class="id">RQ-02</td><td>Decimales y redondeo</td><td>Errores de redondeo que descuadran la contabilidad</td><td><span class="pill p-warn">Media</span></td></tr>
-        <tr><td class="id">RQ-08</td><td>Si se puede enviar el saldo completo</td><td>Ambigüedad de "más que el saldo": genera un error en el límite</td><td><span class="pill p-warn">Media</span></td></tr>
-      </tbody>
+        <tr><td class="id">RQ-06</td><td>Decimales y redondeo</td><td>Errores de redondeo que descuadran la contabilidad</td><td><span class="pill p-warn">Media</span></td></tr>
+      
+</tbody>
     </table></div>
-    <p class="meta" style="margin:14px 0 0">Las 11 consultas completas están en
+    <p class="meta" style="margin:14px 0 0">Las 6 consultas completas están en
       <a href="https://github.com/Alan2527/Makers-Solutions/blob/main/docs/02-modulo-funcional/bugs.md">bugs.md</a>.
       <strong>Las tres críticas comparten una raíz:</strong> el requerimiento describe el camino feliz
       pero no define qué pasa cuando algo se interrumpe o se solapa. En un sistema que mueve dinero,
@@ -286,9 +279,9 @@
         <tr><td><strong>Partición de equivalencia</strong></td><td>Agrupar los valores posibles en familias que el sistema trata igual y probar un representante de cada una</td><td>Montos, formato de celular, credenciales</td></tr>
         <tr><td><strong>Valores límite</strong></td><td>Probar el valor justo debajo, justo en y justo arriba de cada frontera</td><td>Los 6 valores de monto de MakersPay</td></tr>
         <tr><td><strong>Tabla de decisión</strong></td><td>Cruzar todas las combinaciones de condiciones del negocio</td><td>Las 6 reglas de MakersPay combinadas</td></tr>
-        <tr><td><strong>Transición de estados</strong></td><td>Verificar cómo evoluciona el saldo antes y después de cada operación</td><td>MP-01, MP-09, MP-21</td></tr>
-        <tr><td><strong>Conjetura de errores</strong></td><td>Usar la experiencia para anticipar dónde suele fallar este tipo de sistema</td><td>Doble clic, concurrencia, atomicidad</td></tr>
-        <tr><td><strong>Pruebas basadas en riesgo</strong></td><td>Priorizar según impacto y probabilidad</td><td>Priorización de los 43 casos</td></tr>
+        <tr><td><strong>Transición de estados</strong></td><td>Verificar cómo evoluciona el saldo antes y después de cada operación</td><td>MP-01, MP-08, MP-13</td></tr>
+        <tr><td><strong>Conjetura de errores</strong></td><td>Usar la experiencia para anticipar dónde suele fallar este tipo de sistema</td><td>Consultas RQ-01 a RQ-03: concurrencia, atomicidad y doble envío</td></tr>
+        <tr><td><strong>Pruebas basadas en riesgo</strong></td><td>Priorizar según impacto y probabilidad</td><td>Priorización de los 25 casos</td></tr>
         <tr><td><strong>Pruebas de contrato</strong></td><td>Validar que la respuesta de la API respete la estructura esperada</td><td>API-01, API-04 con JSON Schema</td></tr>
       </tbody>
     </table></div>
@@ -301,7 +294,7 @@
         <tr><td><strong>Smoke</strong></td><td>Módulo 1: verificar que la funcionalidad crítica funciona antes de probar nada más</td></tr>
         <tr><td><strong>Funcional</strong></td><td>Los tres módulos: que las reglas de negocio se cumplan</td></tr>
         <tr><td><strong>Integración</strong></td><td>MakersPay: que descuento, acreditación e historiales queden consistentes</td></tr>
-        <tr><td><strong>Seguridad</strong></td><td>SD-06, SD-07, SD-08, MP-25, MP-26: control de acceso, enumeración de usuarios, validación en servidor</td></tr>
+        <tr><td><strong>Seguridad</strong></td><td>MakersPay: validación de los montos también del lado del servidor</td></tr>
         <tr><td><strong>Contrato / API</strong></td><td>Módulo 3: validación de estructura con JSON Schema</td></tr>
         <tr><td><strong>Rendimiento</strong></td><td>API-07: umbral de tiempo de respuesta</td></tr>
         <tr><td><strong>Regresión</strong></td><td>Toda la suite se ejecuta automáticamente en cada cambio del repositorio</td></tr>

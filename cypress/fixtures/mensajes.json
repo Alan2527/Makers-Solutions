@@ -4,7 +4,6 @@
   "login": {
     "credencialesInvalidas": "Epic sadface: Username and password do not match any user in this service",
     "usuarioRequerido": "Epic sadface: Username is required",
-    "passwordRequerida": "Epic sadface: Password is required",
-    "usuarioBloqueado": "Epic sadface: Sorry, this user has been locked out."
+    "passwordRequerida": "Epic sadface: Password is required"
   }
 }
