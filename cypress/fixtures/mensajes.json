@@ -1,0 +1,10 @@
+{
+  "_comentario": "Textos exactos que la aplicacion muestra al usuario final. Se validan de forma literal para detectar cambios no anunciados en los mensajes.",
+
+  "login": {
+    "credencialesInvalidas": "Epic sadface: Username and password do not match any user in this service",
+    "usuarioRequerido": "Epic sadface: Username is required",
+    "passwordRequerida": "Epic sadface: Password is required",
+    "usuarioBloqueado": "Epic sadface: Sorry, this user has been locked out."
+  }
+}

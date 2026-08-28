@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prueba Técnica QA — Makers</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --surface:#fff; --border:#e2e5ea; --text:#12161c; --muted:#5d6673;
+    --accent:#2f6df6; --ok:#0f8a4d; --okbg:#e7f6ee; --fail:#c8341f; --failbg:#fdecea;
+    --warn:#a06000; --warnbg:#fdf3e0; --shadow:0 1px 2px rgba(0,0,0,.05),0 4px 14px rgba(0,0,0,.04);
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#0e1116; --surface:#161b22; --border:#2a313b; --text:#e8ecf1; --muted:#9aa4b1;
+    --accent:#5b8cff; --ok:#3fb27f; --okbg:#12291f; --fail:#f0705c; --failbg:#2b1614;
+    --warn:#e0a949; --warnbg:#2a2010; --shadow:0 1px 2px rgba(0,0,0,.4);
+  }}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 64px}
+  header{margin-bottom:28px}
+  .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{font-size:30px;line-height:1.2;margin:6px 0 8px;letter-spacing:-.02em}
+  .sub{color:var(--muted);margin:0}
+  .cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border-radius:8px;
+    border:1px solid var(--border);background:var(--surface);color:var(--text);
+    text-decoration:none;font-size:14px;font-weight:500;box-shadow:var(--shadow)}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+  .btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn.primary:hover{opacity:.9;color:#fff}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:26px 0}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;box-shadow:var(--shadow)}
+  .stat .n{font-size:28px;font-weight:650;letter-spacing:-.02em;line-height:1.1}
+  .stat .l{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .stat.ok .n{color:var(--ok)} .stat.fail .n{color:var(--fail)} .stat.warn .n{color:var(--warn)}
+
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin:32px 0 0;overflow-x:auto}
+  .tab{padding:10px 16px;border:0;background:none;color:var(--muted);font:inherit;font-weight:500;
+    cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+  .tab[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .panel{display:none;padding-top:24px} .panel.active{display:block}
+
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+    padding:20px;margin-bottom:16px;box-shadow:var(--shadow)}
+  .card h3{margin:0 0 4px;font-size:17px;letter-spacing:-.01em}
+  .card .meta{color:var(--muted);font-size:13.5px;margin:0 0 14px}
+
+  .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+  th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border)}
+  td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  code,.id{font-family:var(--mono);font-size:12.5px}
+  .id{font-weight:600;white-space:nowrap}
+
+  .pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11.5px;font-weight:600;white-space:nowrap}
+  .p-ok{background:var(--okbg);color:var(--ok)}
+  .p-fail{background:var(--failbg);color:var(--fail)}
+  .p-warn{background:var(--warnbg);color:var(--warn)}
+
+  .note{border-left:3px solid var(--warn);background:var(--warnbg);color:var(--text);
+    padding:14px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px}
+  .note strong{color:var(--warn)}
+  .note.crit{border-left-color:var(--fail);background:var(--failbg)}
+  .note.crit strong{color:var(--fail)}
+
+  ul.clean{margin:8px 0 0;padding-left:20px} ul.clean li{margin-bottom:6px}
+  .bar{height:6px;border-radius:3px;background:var(--border);overflow:hidden;margin-top:8px}
+  .bar i{display:block;height:100%;background:var(--ok)}
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);
+    color:var(--muted);font-size:13px}
+  a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Prueba técnica · QA Full Stack Sr</div>
+  <h1>Suite de pruebas — Makers</h1>
+  <p class="sub">Automatización de smoke test de login, pruebas funcionales de API y diseño de pruebas del módulo MakersPay.</p>
+  <div class="cta">
+    <a class="btn primary" href="./allure/">Ver reporte Allure completo</a>
+    <a class="btn" href="https://github.com/Alan2527/Makers-Solutions">Código en GitHub</a>
+    <a class="btn" href="https://github.com/Alan2527/Makers-Solutions/blob/main/docs/03-hallazgos-api.md">Hallazgos de API</a>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="n">43</div><div class="l">Casos de prueba diseñados</div></div>
+  <div class="stat"><div class="n">16</div><div class="l">Casos automatizados</div></div>
+  <div class="stat ok"><div class="n">15</div><div class="l">En verde</div></div>
+  <div class="stat fail"><div class="n">1</div><div class="l">En rojo (defecto real)</div></div>
+  <div class="stat warn"><div class="n">13</div><div class="l">Hallazgos reportados</div></div>
+</div>
+
+<div class="note crit">
+  <strong>Cómo leer el rojo de esta suite.</strong> El caso <code>API-02</code> falla a propósito.
+  No es un error del código: es un defecto real de la API bajo prueba, que confirma la creación
+  de un usuario con un <code>201 Created</code> pero después no lo guarda. Está documentado como
+  <strong>HALLAZGO-API-01</strong>. Se decidió dejarlo en rojo en vez de simular la respuesta:
+  una suite en verde que oculta un defecto crítico no sirve para nada.
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" aria-selected="true" data-p="m1">Módulo 1 · Automatización</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="m2">Módulo 2 · Funcional</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="m3">Módulo 3 · API</button>
+  <button class="tab" role="tab" aria-selected="false" data-p="tec">Técnicas y enfoque</button>
+</div>
+
+<!-- ================= MÓDULO 1 ================= -->
+<section class="panel active" id="m1">
+  <div class="card">
+    <h3>Smoke test de inicio de sesión</h3>
+    <p class="meta">Aplicación: <a href="https://www.saucedemo.com/">saucedemo.com</a> · Cypress + JavaScript · 9 casos · <span class="pill p-ok">9 en verde</span></p>
+    <div class="bar"><i style="width:100%"></i></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>ID</th><th>Caso</th><th>Técnica</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td class="id">SD-01</td><td>Un usuario válido inicia sesión y accede al catálogo</td><td>Camino feliz</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-02</td><td>Con contraseña incorrecta el acceso es rechazado</td><td>Partición de equivalencia</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-03</td><td>El campo Usuario es obligatorio</td><td>Campos obligatorios</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-04</td><td>El campo Contraseña es obligatorio</td><td>Campos obligatorios</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-05</td><td>Un usuario bloqueado no puede ingresar</td><td>Data-driven</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-06</td><td>Un usuario inexistente recibe el mismo mensaje genérico</td><td>Seguridad · enumeración</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-07</td><td>Sin sesión no se accede al catálogo por URL directa</td><td>Control de acceso</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-08</td><td>La contraseña se muestra enmascarada</td><td>Datos sensibles</td><td><span class="pill p-ok">Verde</span></td></tr>
+        <tr><td class="id">SD-09</td><td>Con ambos campos vacíos se prioriza el aviso de Usuario</td><td>Precedencia de validaciones</td><td><span class="pill p-ok">Verde</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>Qué pedía el enunciado y qué se entregó</h3>
+    <p class="meta">Los 3 casos solicitados están cubiertos por SD-01 a SD-04. Los 5 restantes se agregaron por análisis de riesgo.</p>
+    <ul class="clean">
+      <li><strong>SD-07</strong> cubre un riesgo de seguridad que el enunciado no pedía: que alguien saltee el login escribiendo la dirección de una pantalla interna.</li>
+      <li><strong>SD-06</strong> verifica que el sistema no revele qué usuarios existen, evitando que un atacante los descubra probando nombres.</li>
+      <li>Los datos de prueba viven en archivos aparte (<code>cypress/fixtures/</code>): ninguna credencial está escrita dentro de un test.</li>
+      <li>Los localizadores usan atributos <code>data-test</code> y están centralizados en Page Objects: si la aplicación cambia, se corrige en un solo lugar.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= MÓDULO 2 ================= -->
+<section class="panel" id="m2">
+  <div class="card">
+    <h3>MakersPay — Envío de dinero</h3>
+    <p class="meta">Producto ficticio, sin aplicación ejecutable. Entregable de diseño y análisis: 27 casos de prueba y 11 consultas al equipo de producto.</p>
+    <div class="note">
+      <strong>Nota de transparencia.</strong> Como no existe una aplicación para ejecutar,
+      no se reportan bugs de ejecución como si fueran reales. Lo que se reporta son
+      <strong>defectos del requerimiento</strong>: huecos verificables hoy en el texto del enunciado.
+      Un requerimiento ambiguo es un defecto, y es el más barato de corregir.
+    </div>
+  </div>
+  <div class="card">
+    <h3>Cobertura de las reglas de negocio</h3>
+    <p class="meta">6 de 6 reglas cubiertas (100%)</p>
+    <div class="bar"><i style="width:100%"></i></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Regla</th><th>Descripción</th><th>Casos</th></tr></thead>
+      <tbody>
+        <tr><td class="id">RN-01</td><td>Monto mínimo $5.000 COP</td><td class="id">MP-02, MP-03, MP-04</td></tr>
+        <tr><td class="id">RN-02</td><td>Monto máximo $2.000.000 COP</td><td class="id">MP-05, MP-06, MP-07</td></tr>
+        <tr><td class="id">RN-03</td><td>No se puede enviar más que el saldo</td><td class="id">MP-08 a MP-10, MP-13, MP-23</td></tr>
+        <tr><td class="id">RN-04</td><td>No se permite el envío al propio número</td><td class="id">MP-11</td></tr>
+        <tr><td class="id">RN-05</td><td>Efectos de una transacción exitosa</td><td class="id">MP-01, MP-24, MP-27</td></tr>
+        <tr><td class="id">RN-06</td><td>Un rechazo no afecta ningún saldo</td><td class="id">MP-10, MP-15, MP-21, MP-25</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>Valores límite del monto</h3>
+    <p class="meta">Los errores de programación se concentran en las fronteras. Se prueban los seis valores críticos.</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Monto</th><th>Resultado esperado</th><th>Por qué se prueba</th></tr></thead>
+      <tbody>
+        <tr><td class="id">$4.999</td><td><span class="pill p-fail">Rechazo</span></td><td>Justo debajo del mínimo</td></tr>
+        <tr><td class="id">$5.000</td><td><span class="pill p-ok">Éxito</span></td><td>El límite exacto: detecta un <code>&gt;</code> escrito donde iba <code>&gt;=</code></td></tr>
+        <tr><td class="id">$5.001</td><td><span class="pill p-ok">Éxito</span></td><td>Justo arriba del mínimo</td></tr>
+        <tr><td class="id">$1.999.999</td><td><span class="pill p-ok">Éxito</span></td><td>Justo debajo del máximo</td></tr>
+        <tr><td class="id">$2.000.000</td><td><span class="pill p-ok">Éxito</span></td><td>El límite exacto</td></tr>
+        <tr><td class="id">$2.000.001</td><td><span class="pill p-fail">Rechazo</span></td><td>Justo arriba del máximo</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>Consultas al equipo de producto</h3>
+    <p class="meta">11 huecos detectados en el requerimiento · 3 críticos</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>ID</th><th>Qué no está definido</th><th>Riesgo</th><th>Sev.</th></tr></thead>
+      <tbody>
+        <tr><td class="id">RQ-04</td><td>Comportamiento ante envíos simultáneos</td><td>Con saldo de $100.000 y dos envíos de $80.000 a la vez, ambos podrían aprobarse y dejar el saldo en negativo</td><td><span class="pill p-fail">Crítica</span></td></tr>
+        <tr><td class="id">RQ-10</td><td>Atomicidad de la transferencia</td><td>Si falla entre el descuento y la acreditación, el dinero desaparece</td><td><span class="pill p-fail">Crítica</span></td></tr>
+        <tr><td class="id">RQ-03</td><td>Idempotencia ante doble envío</td><td>Un doble clic podría generar dos transferencias</td><td><span class="pill p-fail">Crítica</span></td></tr>
+        <tr><td class="id">RQ-01</td><td>Qué pasa si el destinatario no está registrado</td><td>Además, responder "ese número no existe" permitiría descubrir quién tiene cuenta</td><td><span class="pill p-warn">Alta</span></td></tr>
+        <tr><td class="id">RQ-05</td><td>Límite diario o mensual acumulado</td><td>Nada impide 50 transacciones de $2.000.000 seguidas</td><td><span class="pill p-warn">Alta</span></td></tr>
+        <tr><td class="id">RQ-06</td><td>Estado del destinatario (bloqueado, dado de baja)</td><td>Dinero enviado a una cuenta que no puede usarlo</td><td><span class="pill p-warn">Alta</span></td></tr>
+        <tr><td class="id">RQ-02</td><td>Decimales y redondeo</td><td>Errores de redondeo que descuadran la contabilidad</td><td><span class="pill p-warn">Media</span></td></tr>
+        <tr><td class="id">RQ-08</td><td>Si se puede enviar el saldo completo</td><td>Ambigüedad de "más que el saldo": genera un error en el límite</td><td><span class="pill p-warn">Media</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="meta" style="margin:14px 0 0">Las 11 consultas completas están en
+      <a href="https://github.com/Alan2527/Makers-Solutions/blob/main/docs/02-modulo-funcional/bugs.md">bugs.md</a>.
+      <strong>Las tres críticas comparten una raíz:</strong> el requerimiento describe el camino feliz
+      pero no define qué pasa cuando algo se interrumpe o se solapa. En un sistema que mueve dinero,
+      ahí está el riesgo.</p>
+  </div>
+</section>
+
+<!-- ================= MÓDULO 3 ================= -->
+<section class="panel" id="m3">
+  <div class="card">
+    <h3>Pruebas funcionales de API</h3>
+    <p class="meta">API: <code>https://reqres.in/api/</code> · 7 casos · <span class="pill p-ok">6 en verde</span> <span class="pill p-fail">1 en rojo</span></p>
+    <div class="bar"><i style="width:86%"></i></div>
+    <div class="tblwrap"><table>
+      <thead><tr><th>ID</th><th>Caso</th><th>Estado</th><th>Qué significa</th></tr></thead>
+      <tbody>
+        <tr><td class="id">API-01</td><td>Crear usuario devuelve 201 y los datos enviados</td><td><span class="pill p-ok">Verde</span></td><td>La creación responde correctamente</td></tr>
+        <tr><td class="id">API-02</td><td>Consultar el usuario recién creado devuelve 200</td><td><span class="pill p-fail">Rojo</span></td><td><strong>Es el defecto HALLAZGO-API-01.</strong> Representa lo que el enunciado pide y lo que la API debería hacer</td></tr>
+        <tr><td class="id">API-03</td><td>Se documenta que el usuario creado no se persiste</td><td><span class="pill p-ok">Verde</span></td><td>Funciona como alarma: si algún día se pone en rojo, arreglaron la API</td></tr>
+        <tr><td class="id">API-04</td><td>Consultar un usuario preexistente respeta el contrato</td><td><span class="pill p-ok">Verde</span></td><td>Contraprueba: el endpoint de consulta funciona bien</td></tr>
+        <tr><td class="id">API-05</td><td>Un usuario inexistente devuelve 404</td><td><span class="pill p-ok">Verde</span></td><td>Manejo de errores correcto</td></tr>
+        <tr><td class="id">API-06</td><td>Crear con el cuerpo vacío también devuelve 201</td><td><span class="pill p-ok">Verde</span></td><td>Documenta HALLAZGO-API-02: la API no valida los datos</td></tr>
+        <tr><td class="id">API-07</td><td>La API responde en menos de 3 segundos</td><td><span class="pill p-ok">Verde</span></td><td>Rendimiento dentro del umbral</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
+    <h3>HALLAZGO-API-01 · La API confirma una creación que nunca ocurrió</h3>
+    <p class="meta"><span class="pill p-fail">Severidad crítica</span> &nbsp; Defecto de contrato · Estado: abierto</p>
+    <p><strong>Explicado sin tecnicismos:</strong> es como cargar un cliente nuevo, recibir el cartel
+      <em>"Cliente creado con éxito, número 254"</em>, ir a buscar al cliente 254 y que el sistema
+      responda <em>"ese cliente no existe"</em>.</p>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Paso</th><th>Petición</th><th>Respuesta</th></tr></thead>
+      <tbody>
+        <tr><td>1 · Crear</td><td class="id">POST /api/users</td><td><span class="pill p-ok">201 Created</span> &nbsp;<code>id: 254</code></td></tr>
+        <tr><td>2 · Consultar</td><td class="id">GET /api/users/254</td><td><span class="pill p-fail">404 Not Found</span> &nbsp;<code>{}</code></td></tr>
+        <tr><td>Contraprueba</td><td class="id">GET /api/users/2</td><td><span class="pill p-ok">200 OK</span> &nbsp;usuario existente</td></tr>
+      </tbody>
+    </table></div>
+    <p style="margin-top:14px"><strong>Por qué es grave:</strong> el código <code>201 Created</code> no es
+      decorativo, es una promesa formal del estándar HTTP: <em>el recurso fue creado y lo podés ir a buscar</em>.
+      Cualquier sistema que consuma esta API va a confiar en esa promesa. Un <code>201</code> que miente es
+      peor que un error, porque un error se ve y esto no.</p>
+    <p><strong>Causa raíz:</strong> reqres.in es un servicio de simulación sin base de datos. Eso explica el
+      comportamiento pero no lo justifica: desde el punto de vista de quien la consume, la API responde mal,
+      y detectarlo es exactamente el trabajo de las pruebas.</p>
+  </div>
+
+  <div class="card">
+    <h3>La decisión de diseño: por qué se dejó en rojo</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Opción</th><th>Qué implicaba</th><th>Decisión</th></tr></thead>
+      <tbody>
+        <tr><td>Simular la respuesta</td><td>Interceptar la llamada y devolver un 200 falso</td><td><span class="pill p-fail">Descartada</span> — deja todo en verde ocultando un defecto crítico</td></tr>
+        <tr><td>Validar el 404 y darlo por bueno</td><td>El caso pasa, pero valida un comportamiento incorrecto</td><td><span class="pill p-fail">Descartada</span> — convierte un defecto en el comportamiento oficial</td></tr>
+        <tr><td>Dejarlo en rojo y documentarlo</td><td>El problema se ve y queda trazado</td><td><span class="pill p-ok">Elegida</span></td></tr>
+      </tbody>
+    </table></div>
+    <div class="note" style="margin-bottom:0">
+      <strong>El criterio de fondo:</strong> una suite de pruebas no está para estar en verde,
+      está para decir la verdad sobre el sistema. Un rojo explicado es información accionable.
+      Un verde conseguido tapando el problema es una suite que da falsa tranquilidad — y el día
+      que haya un defecto real, tampoco lo va a detectar.
+    </div>
+  </div>
+</section>
+
+<!-- ================= TÉCNICAS ================= -->
+<section class="panel" id="tec">
+  <div class="card">
+    <h3>Técnicas de prueba aplicadas</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Técnica</th><th>En qué consiste</th><th>Dónde se usó</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Partición de equivalencia</strong></td><td>Agrupar los valores posibles en familias que el sistema trata igual y probar un representante de cada una</td><td>Montos, formato de celular, credenciales</td></tr>
+        <tr><td><strong>Valores límite</strong></td><td>Probar el valor justo debajo, justo en y justo arriba de cada frontera</td><td>Los 6 valores de monto de MakersPay</td></tr>
+        <tr><td><strong>Tabla de decisión</strong></td><td>Cruzar todas las combinaciones de condiciones del negocio</td><td>Las 6 reglas de MakersPay combinadas</td></tr>
+        <tr><td><strong>Transición de estados</strong></td><td>Verificar cómo evoluciona el saldo antes y después de cada operación</td><td>MP-01, MP-09, MP-21</td></tr>
+        <tr><td><strong>Conjetura de errores</strong></td><td>Usar la experiencia para anticipar dónde suele fallar este tipo de sistema</td><td>Doble clic, concurrencia, atomicidad</td></tr>
+        <tr><td><strong>Pruebas basadas en riesgo</strong></td><td>Priorizar según impacto y probabilidad</td><td>Priorización de los 43 casos</td></tr>
+        <tr><td><strong>Pruebas de contrato</strong></td><td>Validar que la respuesta de la API respete la estructura esperada</td><td>API-01, API-04 con JSON Schema</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>Tipos de prueba cubiertos</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>Tipo</th><th>Alcance</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Smoke</strong></td><td>Módulo 1: verificar que la funcionalidad crítica funciona antes de probar nada más</td></tr>
+        <tr><td><strong>Funcional</strong></td><td>Los tres módulos: que las reglas de negocio se cumplan</td></tr>
+        <tr><td><strong>Integración</strong></td><td>MakersPay: que descuento, acreditación e historiales queden consistentes</td></tr>
+        <tr><td><strong>Seguridad</strong></td><td>SD-06, SD-07, SD-08, MP-25, MP-26: control de acceso, enumeración de usuarios, validación en servidor</td></tr>
+        <tr><td><strong>Contrato / API</strong></td><td>Módulo 3: validación de estructura con JSON Schema</td></tr>
+        <tr><td><strong>Rendimiento</strong></td><td>API-07: umbral de tiempo de respuesta</td></tr>
+        <tr><td><strong>Regresión</strong></td><td>Toda la suite se ejecuta automáticamente en cada cambio del repositorio</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="card">
+    <h3>Decisiones técnicas</h3>
+    <ul class="clean">
+      <li><strong>Cypress + JavaScript</strong> — de las tecnologías permitidas por el enunciado, es la que cubre interfaz y API en un solo proyecto.</li>
+      <li><strong>Page Object Model</strong> — los archivos de prueba describen <em>qué</em> se valida; los Page Objects, <em>cómo</em> se interactúa. Si la aplicación cambia, se corrige un solo archivo.</li>
+      <li><strong>Datos en archivos aparte</strong> — ninguna credencial ni texto esperado está escrito dentro de un test.</li>
+      <li><strong>Localizadores <code>data-test</code></strong> — más estables que las clases de CSS, que cambian con cada retoque de diseño.</li>
+      <li><strong>Sin esperas fijas</strong> — se usan esperas por condición, no pausas de N segundos. Evita pruebas lentas y falsos rojos.</li>
+      <li><strong>Un reintento solo en modo automático</strong> — absorbe la inestabilidad de red en el servidor de integración sin ocultar fallos reales.</li>
+      <li><strong>Integración continua</strong> — cada cambio ejecuta la suite y republica este dashboard y el reporte Allure.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  Prueba técnica QA Full Stack Sr · Cypress + JavaScript + Allure ·
+  <a href="https://github.com/Alan2527/Makers-Solutions">github.com/Alan2527/Makers-Solutions</a>
+</footer>
+
+</div>
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.setAttribute('aria-selected', String(x === t)));
+    document.querySelectorAll('.panel').forEach(p =>
+      p.classList.toggle('active', p.id === t.dataset.p));
+  }));
+</script>
+</body>
+</html>
