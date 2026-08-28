@@ -1,4 +1,4 @@
-# Prueba Técnica QA Full Stack Sr — Makers
+# Prueba Técnica QA Full Stack — Makers
 
 Suite de pruebas que cubre los tres módulos del enunciado: automatización de un smoke test de login, diseño de pruebas funcionales de una billetera digital, y pruebas funcionales de API.
 
